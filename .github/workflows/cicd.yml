@@ -11,6 +11,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      nowUsername: ${{ secrets.SN_USERNAME }}
+      nowPassword: ${{ secrets.SN_PASSWORD }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -56,4 +59,9 @@ jobs:
           echo "Resolved ServiceNow instance: $INSTANCE"
           echo "SN_INSTANCE=$INSTANCE" >> "$GITHUB_ENV"
 
-      # TODO: Add the pipeline credentials (job-level env block) and the apply changes step here
+      - name: Apply changes
+        uses: ServiceNow/sncicd-apply-changes@2.0.0
+        continue-on-error: true
+        env:
+          nowSourceInstance: ${{ env.SN_INSTANCE }}
+          appScope: x_cd_grc_app
