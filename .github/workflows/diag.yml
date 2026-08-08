@@ -1,5 +1,7 @@
 name: DIAG secret-vs-var
-on: [workflow_dispatch]
+on:
+  push:
+    branches: [diag-secret-vs-var]
 jobs:
   diag:
     runs-on: ubuntu-latest
